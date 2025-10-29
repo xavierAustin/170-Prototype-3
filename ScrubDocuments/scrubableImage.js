@@ -38,7 +38,7 @@ class Point {
         this.y;
     }
     draw(){
-
+        
     }
 }
 
@@ -50,3 +50,4 @@ class Region {
         this.y1 = y1;
     }
 }
+//
