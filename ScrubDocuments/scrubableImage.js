@@ -33,7 +33,7 @@ class ScrubImage {
             this.points.push({x: mState.x, y: mState.y, end: mState.p});
         else if (mState.d)
             for (let i = 0; i < this.points.length; i ++)
-                if (abs(this.points[i].x - mState.x) + abs(this.points[i].y - mState.y) < WEIGHT * 5){
+                if (abs(this.points[i].x - mState.x) + abs(this.points[i].y - mState.y) < WEIGHT * 2){
                     if (this.points[i + 1])
                         this.points[i + 1].end = 1;
                     this.points.splice(i,1);
