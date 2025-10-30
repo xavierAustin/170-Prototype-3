@@ -140,6 +140,10 @@ function draw(){
     images[0].setX(x2);
     images[1].setX(x3);
     image(kb, 0, 0, width, height);
+
+    for (let img of images) {
+        img.drawWinMessage();
+    }
     
     
     //set after everything else is done

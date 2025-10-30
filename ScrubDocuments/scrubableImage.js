@@ -110,6 +110,14 @@ class ScrubImage {
                 pop();
             }
         }
+    }
+    setX(x){
+        this.x = x;
+    }
+    setY(y){
+        this.y = y;
+    }
+    drawWinMessage(){
         if (this.won) {
             push();
             textAlign(CENTER, CENTER);
@@ -117,15 +125,9 @@ class ScrubImage {
             fill(255, 50, 50);
             stroke(0);
             strokeWeight(5);
-            text("Evidence\nScrubed!", width / 2, height / 2);
+            text("Evidence\nScrubbed!", width / 2, height / 2);
             pop();
         }
-    }
-    setX(x){
-        this.x = x;
-    }
-    setY(y){
-        this.y = y;
     }
 }
 
