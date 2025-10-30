@@ -11,6 +11,8 @@ function draw(){
     background(255);
     currentImage.update();
     currentImage.draw();
+    //set after everything else is done
+    mState.p = 0;
 }
 
 //track mouse state
@@ -19,7 +21,7 @@ function mousePressed(ev){
     mState = {p: 1, d: 1, x: ev.x, y: ev.y};
 }
 function mouseDragged(ev){
-    mState = {p: 0, d: 1, x: ev.x, y: ev.y};
+    mState = {p: mState.p, d: 1, x: ev.x, y: ev.y};
 }
 function mouseReleased(){
     mState.d = 0;
