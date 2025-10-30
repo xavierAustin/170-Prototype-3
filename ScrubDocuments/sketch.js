@@ -8,6 +8,7 @@ let tS;
 let m;
 let images = [];
 let duration = 2500; //anim duration
+let easing = false;
 
 //remove the right click menu
 document.addEventListener('contextmenu', event => event.preventDefault());
@@ -97,23 +98,47 @@ function draw(){
         img.draw();
         
     }
-    images[0].setX(easeAnim(width*0.359-width, width*0.359, t));
-    images[1].setX(easeAnim(width*0.359, width*0.359+width, t));
+
     filter(POSTERIZE, 8);
     
     if (m - t > 5000 && m != 0) {
+        let buf = images[1];
+        images[1] = images[0];
+        images[0] = buf;
+        t = m;
+        easing = true;
+    }
+    if (m - t > duration && easing) {
         let fI = floor(random(forests.length));
         let mI = floor(random(monsters.length));
-        t = m;
+        images[1] = new ScrubImage({
+            "image": forests[fI],
+            "x": width*0.359-width, 
+            "y": height*0.38, 
+            "w": width*0.3,
+            "h": height*0.375,
+            "regions": [new Region(
+                random(width*0.3*0.5),
+                -10-random(height*0.365*0.25),
+                sqrt(monsters[mI].width  / width) * 100,
+                sqrt(monsters[mI].height / height) * 100,
+                monsters[mI]
+            )]
+        });
+        easing = false;
     }
-
 
     
     let x0 = easeAnim(-width, 0, t);
     let x1 = easeAnim(0, width, t);
+    let x2 = easeAnim(width*0.359-width, width*0.359, t);
+    let x3 = easeAnim(width*0.359, width*0.359+width, t);
+    
 
     image(bg2, x0, 0, width, height);
     image(bg1, x1, 0, width, height);
+    images[0].setX(x2);
+    images[1].setX(x3);
     image(kb, 0, 0, width, height);
     
     
@@ -128,6 +153,7 @@ function easeAnim(start, end, t) {
 
   let progress = elapsed / duration;
   let eased = (1 - cos(progress * PI)) / 2;
+
   return start + (end - start) * eased;
 }
 
