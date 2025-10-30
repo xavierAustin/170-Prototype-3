@@ -31,7 +31,7 @@ class ScrubImage {
     }
     update(){
         if (mState.d && mState.button == 0)
-            this.points.push({x: mState.x, y: mState.y, end: mState.p});
+            this.points.push({x: mState.x - this.x, y: mState.y - this.y, end: mState.p});
         else if (mState.d)
             for (let i = 0; i < this.points.length; i ++)
                 if (abs(this.points[i].x - mState.x) + abs(this.points[i].y - mState.y) < WEIGHT * 2){
@@ -81,12 +81,21 @@ class ScrubImage {
         for (let i in this.points){
             let p0 = this.points[i];
             let p1 = this.points[i - 1];
+            
+
             if (p0.end){
-                point(p0.x,p0.y);
+                push();
+                translate(this.x, this.y);
+                point(p0.x, p0.y);
+                pop();
                 continue;
             }
-            if (p1)
+            if (p1) {
+                push();
+                translate(this.x, this.y);
                 line(p0.x,p0.y,p1.x,p1.y);
+                pop();
+            }
         }
         if (this.won) {
             push();

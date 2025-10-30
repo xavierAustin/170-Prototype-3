@@ -3,12 +3,18 @@ let kb;
 let ei;
 let forests = [];
 let monsters = [];
+let t;
+let tS;
+let m;
+let images = [];
+let duration = 2500; //anim duration
 
 //remove the right click menu
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 function preload(){
-    bg = loadImage('img/photoFrame.png');
+    bg1 = loadImage('img/photoFrame.png');
+    bg2 = loadImage('img/photoFrame.png');
     kb = loadImage('img/keyboard.png');
     ei = loadImage('img/forest3.jpg');
     forests.push(loadImage('img/forest1.jpg'));
@@ -32,22 +38,41 @@ function preload(){
 function setup(){
     randomSeed();
     createCanvas(1080,810);
-    let fI = floor(random(forests.length));
-    let mI = floor(random(monsters.length));
-    bGround = new ScrubImage({
-        "image": forests[fI],
-        "x": width*0.359, 
+    let fI0 = floor(random(forests.length));
+    let mI0 = floor(random(monsters.length));
+    let fI1 = floor(random(forests.length));
+    let mI1 = floor(random(monsters.length));
+
+    images.push(new ScrubImage({
+        "image": forests[fI0],
+        "x": width*0.359-width, 
         "y": height*0.38, 
         "w": width*0.3,
-        "h": height*0.365,
+        "h": height*0.375,
         "regions": [new Region(
             random(width*0.3*0.5),
             -10-random(height*0.365*0.25),
-            sqrt(monsters[mI].width  / width) * 100,
-            sqrt(monsters[mI].height / height) * 100,
-            monsters[mI]
+            sqrt(monsters[mI0].width  / width) * 100,
+            sqrt(monsters[mI0].height / height) * 100,
+            monsters[mI0]
         )]
-    });
+        
+    }));
+    images.push(new ScrubImage({
+        "image": forests[fI1],
+        "x": width*0.359, 
+        "y": height*0.38, 
+        "w": width*0.3,
+        "h": height*0.375,
+        "regions": [new Region(
+            random(width*0.3*0.5),
+            -10-random(height*0.365*0.25),
+            sqrt(monsters[mI1].width  / width) * 100,
+            sqrt(monsters[mI1].height / height) * 100,
+            monsters[mI1]
+        )]
+        
+    }));
     /*
     monster = new ScrubImage({
         "image": monsters[mI],
@@ -57,19 +82,53 @@ function setup(){
         "h": monsters[mI].height / height * 50
     });
     */
+   
+    tS = millis();
+    t = millis();
 }
 
 function draw(){
     background(255);
-    bGround.update();
-    bGround.draw();
+    
+    m = millis() - tS;
+    
+    for (let img of images) {
+        img.update();
+        img.draw();
+        
+    }
+    images[0].setX(easeAnim(width*0.359-width, width*0.359, t));
+    images[1].setX(easeAnim(width*0.359, width*0.359+width, t));
     filter(POSTERIZE, 8);
-    image(bg, 0, 0, width, height);
+    
+    if (m - t > 5000 && m != 0) {
+        let fI = floor(random(forests.length));
+        let mI = floor(random(monsters.length));
+        t = m;
+    }
+
+
+    
+    let x0 = easeAnim(-width, 0, t);
+    let x1 = easeAnim(0, width, t);
+
+    image(bg2, x0, 0, width, height);
+    image(bg1, x1, 0, width, height);
     image(kb, 0, 0, width, height);
     
     
     //set after everything else is done
     mState.p = 0;
+}
+
+function easeAnim(start, end, t) {
+  let elapsed = m - t;
+  if (elapsed < 0) return start; 
+  if (elapsed > duration) elapsed = duration; 
+
+  let progress = elapsed / duration;
+  let eased = (1 - cos(progress * PI)) / 2;
+  return start + (end - start) * eased;
 }
 
 //track mouse state
