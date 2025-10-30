@@ -6,6 +6,8 @@ class ScrubImage {
         //mutable
         this.points = [];
         this.regions = [];
+        this.w = width;
+        this.h = height;
         this.x = 0;
         this.y = 0;
         this.image = null;
@@ -34,7 +36,7 @@ class ScrubImage {
         else if (mState.d)
             for (let i = 0; i < this.points.length; i ++)
                 if (Math.abs(this.points[i].x - mState.x) + Math.abs(this.points[i].y - mState.y) < WEIGHT * 5){
-
+                if (abs(this.points[i].x - mState.x) + abs(this.points[i].y - mState.y) < WEIGHT * 2){
                     if (this.points[i + 1])
                         this.points[i + 1].end = 1;
                     this.points.splice(i,1);
@@ -64,7 +66,7 @@ class ScrubImage {
     }
     draw(){
         if (this.image)
-            image(this.image,this.x,this.y);
+            image(this.image,this.x,this.y, this.w, this.h);
         stroke(0);
         strokeWeight(WEIGHT);
         for (let i in this.points){
