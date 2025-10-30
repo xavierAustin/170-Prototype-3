@@ -9,7 +9,7 @@ function preload(){
 }
 
 function setup(){
-    createCanvas(800,600);
+    createCanvas(1080,810);
     currentImage = new ScrubImage({
         "image": ei, 
         "x": width*0.359, 
@@ -23,8 +23,10 @@ function draw(){
     background(255);
     currentImage.update();
     currentImage.draw();
+    filter(POSTERIZE, 10)
     image(bg, 0, 0, width, height);
     image(kb, 0, 0, width, height);
+    
     
     //set after everything else is done
     mState.p = 0;
