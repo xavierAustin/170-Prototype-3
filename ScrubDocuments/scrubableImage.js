@@ -6,6 +6,8 @@ class ScrubImage {
         //mutable
         this.points = [];
         this.regions = [];
+        this.w = width;
+        this.h = height;
         this.x = 0;
         this.y = 0;
         this.image = null;
@@ -62,7 +64,7 @@ class ScrubImage {
     }
     draw(){
         if (this.image)
-            image(this.image,this.x,this.y);
+            image(this.image,this.x,this.y,this.w,this.h);
         for (let x of this.regions)
             if (x.image)
                 image(x.image,x.x,x.y);

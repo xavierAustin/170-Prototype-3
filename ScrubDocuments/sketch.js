@@ -1,16 +1,31 @@
+let bg;
+let kb;
+let ei;
+
 function preload(){
-    
+    bg = loadImage('img/photoFrame.png');
+    kb = loadImage('img/keyboard.png');
+    ei = loadImage('img/forest2.jpg');
 }
 
 function setup(){
     createCanvas(800,600);
-    currentImage = new ScrubImage();
+    currentImage = new ScrubImage({
+        "image": ei, 
+        "x": width*0.359, 
+        "y": height*0.38, 
+        "w": width*0.3, 
+        "h": height*0.365
+    });
 }
 
 function draw(){
     background(255);
     currentImage.update();
     currentImage.draw();
+    image(bg, 0, 0, width, height);
+    image(kb, 0, 0, width, height);
+    
     //set after everything else is done
     mState.p = 0;
 }
