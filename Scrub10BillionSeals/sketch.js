@@ -11,10 +11,10 @@ function draw(){
 }
 
 //track mouse state
-mState = 0;
-function mousePressed(){
-    mState = 1;
+mState = {p: 0, x: 0, y: 0};
+function mouseDragged(ev){
+    mState = {p: 1, x: ev.x, y: ev.x};
 }
 function mouseReleased(){
-    mState = 0;
+    mState.p = 0;
 }

@@ -1,15 +1,22 @@
-//will very likely need to be high
 const WIN_THRESHOLD_SCALAR = 0.06;
 
 class ScrubbableImage {
-    constructor(){
+    constructor(selections = {}){
         //mutable
         this.points = [];
         this.regions = [];
         this.x = 0;
         this.y = 0;
         this.image = null;
-        
+
+        for (let x in selections){
+            if (this[x] === undefined)
+                throw new Error("Non-existant object variable: " + x);
+            if (typeof this[x] == "function")
+                throw new Error("Please don't modify methods dynamically ;-; its mean.");
+            this[x] = selections[x];
+        }
+
         //unmutable
         let w = 0;
         let h = 0;
@@ -17,7 +24,11 @@ class ScrubbableImage {
             w += region.x0 - region.x1;
             h += region.y0 - region.y1;
         }
-        winThreshold = w*h;
+        this.winThreshold = w*h;
+    }
+    update(){
+        if (mState.p)
+            this.points.push(new Point(mState.x,mState.y));
     }
     checkWin(){
         let score = 0;
@@ -33,11 +44,10 @@ class ScrubbableImage {
                 //above might be slow as hell if so use this instead
                 //sameAsOtherPoint += 10 > abs(j.x - i.x) + abs(j.y - i.y);
             }
-            if (i.x > region.x0 && i.y > region.y0 && i.x < region.x1 && i.y < region.y1
-                && !sameAsOtherPoint)
+            if (i.x > region.x0 && i.y > region.y0 && i.x < region.x1 && i.y < region.y1 && !sameAsOtherPoint)
                 score ++;
         }
-        if (score > WIN_THRESHOLD_SCALAR)
+        if (score > WIN_THRESHOLD_SCALAR * this.winThreshold)
             ;// idk win or somn      
     }
     draw(){
@@ -47,12 +57,14 @@ class ScrubbableImage {
 }
 
 class Point {
-    constructor(){
-        this.x;
-        this.y;
+    constructor(x,y){
+        this.x = x;
+        this.y = y;
     }
     draw(){
-        
+        fill(0);
+        noStroke();
+        ellipse(this.x,this.y,10);
     }
 }
 
