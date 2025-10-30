@@ -81,6 +81,12 @@ class ScrubImage {
                 line(p0.x,p0.y,p1.x,p1.y);
         }
     }
+    setX(x){
+        this.x = x;
+    }
+    setY(y){
+        this.y = y;
+    }
 }
 
 class Region {
