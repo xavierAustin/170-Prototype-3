@@ -68,7 +68,7 @@ class ScrubImage {
         for (let x of this.regions)
             if (x.image)
                 image(x.image,x.x,x.y);
-        stroke(0);
+        stroke(255,0,0);
         strokeWeight(WEIGHT);
         for (let i in this.points){
             let p0 = this.points[i];
