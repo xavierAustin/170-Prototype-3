@@ -34,8 +34,8 @@ class ScrubImage {
         else if (mState.d)
             for (let i in this.points)
                 if (abs(this.points[i].x - mState.x) + abs(this.points[i].y - mState.y) < WEIGHT * 5){
-                    if (this.points[i+1])
-                        this.points[i+1].end = 1;
+                    if (this.points[i])
+                        this.points[i] = 1;
                     this.points.splice(i,1);
                 }
         if (!(frameCount % 10))

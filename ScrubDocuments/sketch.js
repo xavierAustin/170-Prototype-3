@@ -4,7 +4,7 @@ function preload(){
 
 function setup(){
     createCanvas(800,600);
-    currentImage = new ScrubbableImage();
+    currentImage = new ScrubImage();
 }
 
 function draw(){
