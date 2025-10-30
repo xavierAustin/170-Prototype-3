@@ -4,18 +4,23 @@ function preload(){
 
 function setup(){
     createCanvas(1280,720);
-    ima = new ScrubbableImage();
+    currentImage = new ScrubbableImage();
 }
 
 function draw(){
     background(255);
+    currentImage.update();
+    currentImage.draw();
 }
 
 //track mouse state
-mState = {p: 0, x: 0, y: 0};
+mState = {p: 0, d: 0, x: 0, y: 0};
+function mousePressed(ev){
+    mState = {p: 1, d: 1, x: ev.x, y: ev.y};
+}
 function mouseDragged(ev){
-    mState = {p: 1, x: ev.x, y: ev.x};
+    mState = {p: 0, d: 1, x: ev.x, y: ev.y};
 }
 function mouseReleased(){
-    mState.p = 0;
+    mState.d = 0;
 }
