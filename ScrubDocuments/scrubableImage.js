@@ -66,8 +66,7 @@ class ScrubImage {
         if (this.image)
             image(this.image,this.x,this.y,this.w,this.h);
         for (let x of this.regions)
-            if (x.image)
-                image(x.image,x.x,x.y);
+            x.draw();
         stroke(255,0,0);
         strokeWeight(WEIGHT);
         for (let i in this.points){
@@ -84,18 +83,15 @@ class ScrubImage {
 }
 
 class Region {
-    constructor(x0,y0,image = undefined){
+    constructor(x0,y0,w,h,image = undefined){
         this.x0 = x0;
         this.y0 = y0;
         this.image = image;
-        this.x1 = x0;
-        this.y1 = y0;
-        if (this.image == undefined)
-            return;
-        this.x1 += this.image.width;
-        this.y1 += this.image.height;
+        this.x1 = x0 + w;
+        this.y1 = y0 + h;
     }
     draw(){
-        this.image()
+        if (this.image)
+            image(this.image,this.x0,this.y0,this.x1-this.x0,this.y1-this.y0);
     }
 }
