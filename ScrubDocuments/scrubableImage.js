@@ -1,8 +1,7 @@
-
 const WEIGHT = 10;
 const WIN_THRESHOLD_SCALAR = 0.06;
 
-class ScrubbableImage {
+class ScrubImage {
     constructor(selections = {}){
         //mutable
         this.points = [];
@@ -29,8 +28,18 @@ class ScrubbableImage {
         this.winThreshold = w*h;
     }
     update(){
-        if (mState.d)
+        console.log(mState.button)
+        if (mState.d && mState.button == 0)
             this.points.push({x: mState.x, y: mState.y, end: mState.p});
+        else if (mState.d)
+            for (let i in this.points)
+                if (abs(this.points[i].x - mState.x) + abs(this.points[i].y - mState.y) < WEIGHT * 5){
+                    if (this.points[i])
+                        this.points[i] = 1;
+                    this.points.splice(i,1);
+                }
+        if (!(frameCount % 10))
+            this.checkWin();
     }
     checkWin(){
         let score = 0;
@@ -53,6 +62,8 @@ class ScrubbableImage {
             ;// idk win or somn      
     }
     draw(){
+        if (this.image)
+            image(this.image,this.x,this.y);
         stroke(0);
         strokeWeight(WEIGHT);
         for (let i in this.points){
