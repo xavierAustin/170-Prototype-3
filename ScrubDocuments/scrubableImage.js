@@ -28,7 +28,6 @@ class ScrubImage {
         this.winThreshold = w*h;
     }
     update(){
-        console.log(mState.button)
         if (mState.d && mState.button == 0)
             this.points.push({x: mState.x, y: mState.y, end: mState.p});
         else if (mState.d)
@@ -64,6 +63,9 @@ class ScrubImage {
     draw(){
         if (this.image)
             image(this.image,this.x,this.y);
+        for (let x of this.regions)
+            if (x.image)
+                image(x.image,x.x,x.y);
         stroke(0);
         strokeWeight(WEIGHT);
         for (let i in this.points){
@@ -80,10 +82,18 @@ class ScrubImage {
 }
 
 class Region {
-    constructor(x0,y0,x1,y1){
+    constructor(x0,y0,image = undefined){
         this.x0 = x0;
         this.y0 = y0;
-        this.x1 = x1;
-        this.y1 = y1;
+        this.image = image;
+        this.x1 = x0;
+        this.y1 = y0;
+        if (this.image == undefined)
+            return;
+        this.x1 += this.image.width;
+        this.y1 += this.image.height;
+    }
+    draw(){
+        this.image()
     }
 }
