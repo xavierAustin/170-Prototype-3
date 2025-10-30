@@ -2,6 +2,9 @@ let bg;
 let kb;
 let ei;
 
+//remove the right click menu
+document.addEventListener('contextmenu', event => event.preventDefault());
+
 function preload(){
     bg = loadImage('img/photoFrame.png');
     kb = loadImage('img/keyboard.png');
