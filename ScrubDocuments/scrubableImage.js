@@ -10,7 +10,7 @@ class ScrubImage {
         this.x = 0;
         this.y = 0;
         this.image = null;
-        this.winThreshold = 200;
+        this.winThreshold = 75;
 
         for (let x in selections){
             if (this[x] === undefined)
@@ -53,8 +53,9 @@ class ScrubImage {
                 //100 == 10 squared
                 //sameAsOtherPoint += 100 > (pow(j.x - i.x, 2) + pow(j.y - i.y, 2));
                 //above might be slow as hell if so use this instead
-                if (j.x > region.x0 && j.y > region.y0 && j.x < region.x1 && j.y < region.y1)
-                    sameAsOtherPoint += 3 > abs(j.x - i.x) + abs(j.y - i.y);
+                sameAsOtherPoint += (10 > abs(j.x - i.x) + abs(j.y - i.y)) 
+                    && this.points.indexOf(i) - this.points.indexOf(j) > 10
+                    && (j.x > region.x0 && j.y > region.y0 && j.x < region.x1 && j.y < region.y1);
             }
             if (i.x > region.x0 && i.y > region.y0 && i.x < region.x1 && i.y < region.y1 && !sameAsOtherPoint)
                 score ++;
@@ -96,9 +97,11 @@ class Region {
         this.image = image;
         this.x1 = x0 + w;
         this.y1 = y0 + h;
+        this.w = w;
+        this.h = h;
     }
     draw(){
         if (this.image)
-            image(this.image,this.x0,this.y0,this.x1-this.x0,this.y1-this.y0);
+            image(this.image,this.x0,this.y0,this.w,this.h);
     }
 }
