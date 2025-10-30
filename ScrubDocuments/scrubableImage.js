@@ -10,7 +10,8 @@ class ScrubImage {
         this.x = 0;
         this.y = 0;
         this.image = null;
-        this.winThreshold = 75;
+        this.winThreshold = 25;
+        this.won = false;
 
         for (let x in selections){
             if (this[x] === undefined)
@@ -62,7 +63,9 @@ class ScrubImage {
         }
         console.log(score);
         if (score > this.winThreshold)
-            console.log("u wonnered!");// idk win or somn      
+            this.won = true;
+            // console.log("u wonnered!");// idk win or somn 
+            // this.won = true;     
     }
     draw(){
         if (this.image)
@@ -80,6 +83,24 @@ class ScrubImage {
             }
             if (p1)
                 line(p0.x,p0.y,p1.x,p1.y);
+        }
+        if (this.won) {
+            push();
+            textAlign(CENTER, CENTER);
+            textSize(64);
+            fill(255, 50, 50);
+            stroke(0);
+            strokeWeight(5);
+            text("Evidence\nScrubed!", width / 2, height / 2);
+            pop();
+
+        if (!this.reloadScheduled) {
+            this.reloadScheduled = true;
+            setTimeout(() => {
+                location.reload(); // refresh 
+            }, 2000); // 2 seconds 
+    }
+
         }
     }
     setX(x){
