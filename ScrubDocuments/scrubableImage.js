@@ -70,8 +70,12 @@ class ScrubImage {
     draw(){
         if (this.image)
             image(this.image,this.x,this.y,this.w,this.h);
-        for (let x of this.regions)
+        for (let x of this.regions) {
+            push();
+            translate(this.x, this.y + this.w);
             x.draw();
+            pop();
+        }
         stroke(255,0,0);
         strokeWeight(WEIGHT);
         for (let i in this.points){
@@ -117,12 +121,13 @@ class Region {
         this.y0 = y0;
         this.image = image;
         this.x1 = x0 + w;
-        this.y1 = y0 + h;
-        this.w = w;
-        this.h = h;
+        this.y1 = y0 - h;
     }
     draw(){
-        if (this.image)
-            image(this.image,this.x0,this.y0,this.w,this.h);
+        if (this.image) {
+            imageMode(CORNERS);
+            image(this.image,this.x0,this.y0,this.x1,this.y1);
+            imageMode(CORNER);
+        }
     }
 }

@@ -41,8 +41,8 @@ function setup(){
         "w": width*0.3,
         "h": height*0.365,
         "regions": [new Region(
-            width*0.359 + random(width*0.3*0.75), 
-            height*0.38 + height*0.365*0.25 + random(height*0.365*0.5),
+            random(width*0.3*0.5),
+            -10-random(height*0.365*0.25),
             sqrt(monsters[mI].width  / width) * 100,
             sqrt(monsters[mI].height / height) * 100,
             monsters[mI]
@@ -60,12 +60,9 @@ function setup(){
 }
 
 function draw(){
-    randomSeed(1);
     background(255);
     bGround.update();
     bGround.draw();
-    //monster.update();
-    //monster.draw();
     filter(POSTERIZE, 8);
     image(bg, 0, 0, width, height);
     image(kb, 0, 0, width, height);
