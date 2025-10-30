@@ -32,10 +32,10 @@ class ScrubImage {
         if (mState.d && mState.button == 0)
             this.points.push({x: mState.x, y: mState.y, end: mState.p});
         else if (mState.d)
-            for (let i in this.points)
+            for (let i = 0; i < this.points.length; i ++)
                 if (abs(this.points[i].x - mState.x) + abs(this.points[i].y - mState.y) < WEIGHT * 5){
-                    if (this.points[i])
-                        this.points[i] = 1;
+                    if (this.points[i + 1])
+                        this.points[i + 1].end = 1;
                     this.points.splice(i,1);
                 }
         if (!(frameCount % 10))
