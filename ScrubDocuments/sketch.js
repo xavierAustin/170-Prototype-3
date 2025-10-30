@@ -148,6 +148,11 @@ function draw(){
     
     //set after everything else is done
     mState.p = 0;
+
+    if (x2 > width*0.35 && x2 < width*0.358) {
+        images[0].points = [];
+        images[1].points = [];
+    }
 }
 
 function easeAnim(start, end, t) {

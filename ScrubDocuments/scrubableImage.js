@@ -10,7 +10,7 @@ class ScrubImage {
         this.x = 0;
         this.y = 0;
         this.image = null;
-        this.winThreshold = 25;
+        this.winThreshold = 24;
         this.won = false;
 
         for (let x in selections){
