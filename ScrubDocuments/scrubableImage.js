@@ -47,7 +47,7 @@ class ScrubImage {
         //check if player censored region of image needed to be ceonsored
         for (let region of this.regions)
         for (let i of this.points){
-            sameAsOtherPoint = false;
+            let sameAsOtherPoint = false;
             for (let j of this.points){
                 if (i == j)
                     break;
@@ -60,14 +60,13 @@ class ScrubImage {
                 score ++;
         }
         if (score > WIN_THRESHOLD_SCALAR * this.winThreshold)
-            ;// idk win or somn      
+            console.log("u wonnered!");// idk win or somn      
     }
     draw(){
         if (this.image)
             image(this.image,this.x,this.y,this.w,this.h);
         for (let x of this.regions)
-            if (x.image)
-                image(x.image,x.x,x.y);
+            x.draw();
         stroke(255,0,0);
         strokeWeight(WEIGHT);
         for (let i in this.points){
@@ -90,18 +89,15 @@ class ScrubImage {
 }
 
 class Region {
-    constructor(x0,y0,image = undefined){
+    constructor(x0,y0,w,h,image = undefined){
         this.x0 = x0;
         this.y0 = y0;
         this.image = image;
-        this.x1 = x0;
-        this.y1 = y0;
-        if (this.image == undefined)
-            return;
-        this.x1 += this.image.width;
-        this.y1 += this.image.height;
+        this.x1 = x0 + w;
+        this.y1 = y0 + h;
     }
     draw(){
-        this.image()
+        if (this.image)
+            image(this.image,this.x0,this.y0,this.x1-this.x0,this.y1-this.y0);
     }
 }
