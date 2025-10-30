@@ -1,5 +1,9 @@
+let bg;
+let kb;
+
 function preload(){
-    
+    bg = loadImage('img/photoFrame.png');
+    kb = loadImage('img/keyboard.png');
 }
 
 function setup(){
@@ -9,6 +13,8 @@ function setup(){
 
 function draw(){
     background(255);
+    image(bg, 0, 0, width, height);
+    image(kb, 0, 0, width, height);
     currentImage.update();
     currentImage.draw();
     //set after everything else is done
