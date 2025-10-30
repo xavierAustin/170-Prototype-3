@@ -1,10 +1,10 @@
 function preload(){
-    //load images
+    
 }
 
 function setup(){
     createCanvas(1280,720);
-    currentImage = new ScrubbableImage();
+    currentImage = new ScrubImage();
 }
 
 function draw(){
@@ -16,12 +16,13 @@ function draw(){
 }
 
 //track mouse state
-mState = {p: 0, d: 0, x: 0, y: 0};
+mState = {p: 0, d: 0, x: 0, y: 0, button: 0};
 function mousePressed(ev){
-    mState = {p: 1, d: 1, x: ev.x, y: ev.y};
+    //console.log(ev);
+    mState = {p: 1, d: 1, x: ev.x, y: ev.y, button: ev.button};
 }
 function mouseDragged(ev){
-    mState = {p: mState.p, d: 1, x: ev.x, y: ev.y};
+    mState = {p: mState.p, d: 1, x: ev.x, y: ev.y, button: mState.button};
 }
 function mouseReleased(){
     mState.d = 0;
