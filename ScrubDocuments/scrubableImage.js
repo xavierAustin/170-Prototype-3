@@ -53,7 +53,8 @@ class ScrubImage {
                 //100 == 10 squared
                 //sameAsOtherPoint += 100 > (pow(j.x - i.x, 2) + pow(j.y - i.y, 2));
                 //above might be slow as hell if so use this instead
-                sameAsOtherPoint += 10 > abs(j.x - i.x) + abs(j.y - i.y);
+                if (j.x > region.x0 && j.y > region.y0 && j.x < region.x1 && j.y < region.y1)
+                    sameAsOtherPoint += 3 > abs(j.x - i.x) + abs(j.y - i.y);
             }
             if (i.x > region.x0 && i.y > region.y0 && i.x < region.x1 && i.y < region.y1 && !sameAsOtherPoint)
                 score ++;
