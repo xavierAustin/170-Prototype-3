@@ -52,7 +52,7 @@ function setup(){
         "h": height*0.375,
         "regions": [new Region(
             random(width*0.3*0.5),
-            -10-random(height*0.365*0.25),
+            height*0.365*0.75+random(height*0.365*0.25),
             sqrt(monsters[mI0].width  / width) * 100,
             sqrt(monsters[mI0].height / height) * 100,
             monsters[mI0]
@@ -67,7 +67,7 @@ function setup(){
         "h": height*0.375,
         "regions": [new Region(
             random(width*0.3*0.5),
-            -10-random(height*0.365*0.25),
+            height*0.365*0.75+random(height*0.365*0.25),
             sqrt(monsters[mI1].width  / width) * 100,
             sqrt(monsters[mI1].height / height) * 100,
             monsters[mI1]
@@ -101,7 +101,7 @@ function draw(){
 
     filter(POSTERIZE, 8);
     
-    if (m - t > 5000 && m != 0) {
+    if (images[0].won) {
         let buf = images[1];
         images[1] = images[0];
         images[0] = buf;
@@ -119,7 +119,7 @@ function draw(){
             "h": height*0.375,
             "regions": [new Region(
                 random(width*0.3*0.5),
-                -10-random(height*0.365*0.25),
+                height*0.365*0.75+random(height*0.365*0.25),
                 sqrt(monsters[mI].width  / width) * 100,
                 sqrt(monsters[mI].height / height) * 100,
                 monsters[mI]

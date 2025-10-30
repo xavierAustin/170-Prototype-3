@@ -30,9 +30,9 @@ class ScrubImage {
         }
     }
     update(){
-        if (mState.d && mState.button == 0)
+        if (mState.d && mState.button == 0 && !this.won)
             this.points.push({x: mState.x - this.x, y: mState.y - this.y, end: mState.p});
-        else if (mState.d)
+        else if (mState.d && !this.won)
             for (let i = 0; i < this.points.length; i ++)
                 if (abs(this.points[i].x - mState.x) + abs(this.points[i].y - mState.y) < WEIGHT * 2){
                     if (this.points[i + 1])
@@ -42,37 +42,50 @@ class ScrubImage {
         if (!(frameCount % 10))
             this.checkWin();
     }
-    checkWin(){
+
+    checkWin() {
         let score = 0;
-        //check if player censored region of image needed to be ceonsored
-        for (let region of this.regions)
-        for (let i of this.points){
-            let sameAsOtherPoint = false;
-            for (let j of this.points){
-                if (i == j)
-                    break;
-                //100 == 10 squared
-                //sameAsOtherPoint += 100 > (pow(j.x - i.x, 2) + pow(j.y - i.y, 2));
-                //above might be slow as hell if so use this instead
-                sameAsOtherPoint += (10 > abs(j.x - i.x) + abs(j.y - i.y)) 
-                    && this.points.indexOf(i) - this.points.indexOf(j) > 10
-                    && (j.x > region.x0 && j.y > region.y0 && j.x < region.x1 && j.y < region.y1);
+
+        for (let region of this.regions) {
+            let yMin = Math.min(region.y0, region.y2);
+            let yMax = Math.max(region.y0, region.y2);
+
+            for (let i of this.points) {
+                let sameAsOtherPoint = false;
+
+                for (let j of this.points) {
+                    if (i === j) break;
+                    sameAsOtherPoint +=
+                        (10 > abs(j.x - i.x) + abs(j.y - i.y)) &&
+                        this.points.indexOf(i) - this.points.indexOf(j) > 10 &&
+                        (j.x > region.x0 &&
+                         j.y > yMin &&
+                         j.x < region.x1 &&
+                         j.y < yMax);
+                }
+
+                if (
+                    i.x > region.x0 &&
+                    i.y > yMin &&
+                    i.x < region.x1 &&
+                    i.y < yMax &&
+                    !sameAsOtherPoint
+                ) {
+                    score++;
+                }
             }
-            if (i.x > region.x0 && i.y > region.y0 && i.x < region.x1 && i.y < region.y1 && !sameAsOtherPoint)
-                score ++;
         }
-        console.log(score);
-        if (score > this.winThreshold)
-            this.won = true;
-            // console.log("u wonnered!");// idk win or somn 
-            // this.won = true;     
+
+        console.log("score:", score);
+        if (score > this.winThreshold) this.won = true;
     }
+
     draw(){
         if (this.image)
             image(this.image,this.x,this.y,this.w,this.h);
         for (let x of this.regions) {
             push();
-            translate(this.x, this.y + this.w);
+            translate(this.x, this.y);
             x.draw();
             pop();
         }
@@ -106,14 +119,6 @@ class ScrubImage {
             strokeWeight(5);
             text("Evidence\nScrubed!", width / 2, height / 2);
             pop();
-
-        if (!this.reloadScheduled) {
-            this.reloadScheduled = true;
-            setTimeout(() => {
-                location.reload(); // refresh 
-            }, 2000); // 2 seconds 
-    }
-
         }
     }
     setX(x){
@@ -130,12 +135,14 @@ class Region {
         this.y0 = y0;
         this.image = image;
         this.x1 = x0 + w;
-        this.y1 = y0 - h;
+        this.y1 = y0 + h;
+        this.y2 = y0 - h;
+        this.h = h;
     }
     draw(){
         if (this.image) {
             imageMode(CORNERS);
-            image(this.image,this.x0,this.y0,this.x1,this.y1);
+            image(this.image,this.x0,this.y0,this.x1,this.y2);
             imageMode(CORNER);
         }
     }
