@@ -38,8 +38,16 @@ function setup(){
         "x": width*0.359, 
         "y": height*0.38, 
         "w": width*0.3,
-        "h": height*0.365
+        "h": height*0.365,
+        "regions": [new Region(
+            width*0.359 + random(width*0.3*0.75), 
+            height*0.38 + height*0.365*0.25 + random(height*0.365*0.5),
+            monsters[mI].width / width * 50,
+            monsters[mI].height / height * 50,
+            monsters[mI]
+        )]
     });
+    /*
     monster = new ScrubImage({
         "image": monsters[mI],
         "x": width*0.359 + random(width*0.3*0.75), 
@@ -47,6 +55,7 @@ function setup(){
         "w": monsters[mI].width / width * 50,
         "h": monsters[mI].height / height * 50
     });
+    */
 }
 
 function draw(){
@@ -54,8 +63,8 @@ function draw(){
     background(255);
     bGround.update();
     bGround.draw();
-    monster.update();
-    monster.draw();
+    //monster.update();
+    //monster.draw();
     filter(POSTERIZE, 8);
     image(bg, 0, 0, width, height);
     image(kb, 0, 0, width, height);

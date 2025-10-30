@@ -1,5 +1,4 @@
 const WEIGHT = 10;
-const WIN_THRESHOLD_SCALAR = 0.06;
 
 class ScrubImage {
     constructor(selections = {}){
@@ -11,6 +10,7 @@ class ScrubImage {
         this.x = 0;
         this.y = 0;
         this.image = null;
+        this.winThreshold = 200;
 
         for (let x in selections){
             if (this[x] === undefined)
@@ -27,7 +27,6 @@ class ScrubImage {
             w += region.x0 - region.x1;
             h += region.y0 - region.y1;
         }
-        this.winThreshold = w*h;
     }
     update(){
         if (mState.d && mState.button == 0)
@@ -52,14 +51,15 @@ class ScrubImage {
                 if (i == j)
                     break;
                 //100 == 10 squared
-                sameAsOtherPoint += 100 > (pow(j.x - i.x, 2) + pow(j.y - i.y, 2));
+                //sameAsOtherPoint += 100 > (pow(j.x - i.x, 2) + pow(j.y - i.y, 2));
                 //above might be slow as hell if so use this instead
-                //sameAsOtherPoint += 10 > abs(j.x - i.x) + abs(j.y - i.y);
+                sameAsOtherPoint += 10 > abs(j.x - i.x) + abs(j.y - i.y);
             }
             if (i.x > region.x0 && i.y > region.y0 && i.x < region.x1 && i.y < region.y1 && !sameAsOtherPoint)
                 score ++;
         }
-        if (score > WIN_THRESHOLD_SCALAR * this.winThreshold)
+        console.log(score);
+        if (score > this.winThreshold)
             console.log("u wonnered!");// idk win or somn      
     }
     draw(){
