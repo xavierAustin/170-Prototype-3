@@ -47,7 +47,7 @@ class ScrubImage {
         //check if player censored region of image needed to be ceonsored
         for (let region of this.regions)
         for (let i of this.points){
-            sameAsOtherPoint = false;
+            let sameAsOtherPoint = false;
             for (let j of this.points){
                 if (i == j)
                     break;
@@ -60,7 +60,7 @@ class ScrubImage {
                 score ++;
         }
         if (score > WIN_THRESHOLD_SCALAR * this.winThreshold)
-            ;// idk win or somn      
+            console.log("u wonnered!");// idk win or somn      
     }
     draw(){
         if (this.image)

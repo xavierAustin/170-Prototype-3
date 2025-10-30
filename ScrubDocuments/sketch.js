@@ -30,7 +30,8 @@ function setup(){
         "x": width*0.359, 
         "y": height*0.38, 
         "w": width*0.3, 
-        "h": height*0.365
+        "h": height*0.365,
+        "regions": [new Region(width*0.359,height*0.359,monsters[1])]
     });
 }
 
