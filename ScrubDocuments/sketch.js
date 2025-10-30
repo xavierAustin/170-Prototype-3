@@ -42,8 +42,8 @@ function setup(){
         "regions": [new Region(
             width*0.359 + random(width*0.3*0.75), 
             height*0.38 + height*0.365*0.25 + random(height*0.365*0.5),
-            monsters[mI].width / width * 50,
-            monsters[mI].height / height * 50,
+            sqrt(monsters[mI].width  / width) * 100,
+            sqrt(monsters[mI].height / height) * 100,
             monsters[mI]
         )]
     });
