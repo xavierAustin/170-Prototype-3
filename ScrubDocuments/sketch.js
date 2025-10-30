@@ -26,13 +26,14 @@ function preload(){
     monsters.push(loadImage('img/monster6.png'));
     monsters.push(loadImage('img/monster7.png'));
     monsters.push(loadImage('img/monster8.png'));
+    monsters.push(loadImage('img/monster9.png'));
 }
 
 function setup(){
     randomSeed();
     createCanvas(1080,810);
-    let fI = floor(random(7));
-    let mI = floor(random(8));
+    let fI = floor(random(forests.length));
+    let mI = floor(random(monsters.length));
     bGround = new ScrubImage({
         "image": forests[fI],
         "x": width*0.359, 
