@@ -24,7 +24,7 @@ class ScrubImage {
         let w = 0;
         let h = 0;
         for (let region of this.regions){
-            console.log(region.x0,region.x1,region.y0,region.y1);
+            //console.log(region.x0,region.x1,region.y0,region.y1);
             w += region.x1 - region.x0;
             h += region.y1 - region.y0;
         }
@@ -78,7 +78,7 @@ class ScrubImage {
             }
         }
 
-        console.log("score:", score);
+        //console.log("score:", score);
         if (score > this.winThreshold) this.won = true;
     }
 
