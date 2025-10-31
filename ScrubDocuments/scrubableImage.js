@@ -10,7 +10,6 @@ class ScrubImage {
         this.x = 0;
         this.y = 0;
         this.image = null;
-        this.winThreshold = 24;
         this.won = false;
 
         for (let x in selections){
@@ -25,9 +24,11 @@ class ScrubImage {
         let w = 0;
         let h = 0;
         for (let region of this.regions){
-            w += region.x0 - region.x1;
-            h += region.y0 - region.y1;
+            console.log(region.x0,region.x1,region.y0,region.y1);
+            w += region.x1 - region.x0;
+            h += region.y1 - region.y0;
         }
+        this.winThreshold = w * h / 60;
     }
     update(){
         if (mState.d && mState.button == 0 && !this.won)
