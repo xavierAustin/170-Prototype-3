@@ -1,6 +1,10 @@
 let bg;
 let kb;
 let ei;
+let usb;
+let cfe;
+let vnt;
+let mrk;
 let forests = [];
 let monsters = [];
 let t;
@@ -17,8 +21,10 @@ function preload(){
     bg1 = loadImage("img/photoFrame.png");
     //bg2 = loadImage("img/photoFrame.png");
     kb = loadImage("img/keyboard.png");
-    cf = loadImage("img/coffeeImage.png");
+    cfe = loadImage("img/coffeeImage.png");
     usb = loadImage("img/usbImage.png");
+    mrk = loadImage("img/markerWBlur.png");
+    vnt = loadImage("img/vignetteGray.png");
     ei = loadImage("img/forest3.jpg");
     forests.push(loadImage("img/forest1.jpg"));
     forests.push(loadImage("img/forest2.jpg"));
@@ -142,11 +148,18 @@ function draw(){
     images[0].setX(x2);
     images[1].setX(x3);
     image(kb, 0, 0, width, height);
+    image(cfe, width*0.6, height*0.45, width, height);
+    image(usb, -width*0.1, height*0.6, width*0.4, height*0.5);
+    image(vnt, 0, 0, width, height);
+
+    push();
+    tint(255,255,255,180);
+    image(mrk,mouseX,mouseY,height * 0.6, height * 0.667);
+    pop();
 
     for (let img of images) {
         img.drawWinMessage();
     }
-    
     
     //set after everything else is done
     mState.p = 0;

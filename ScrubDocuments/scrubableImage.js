@@ -28,18 +28,19 @@ class ScrubImage {
             w += region.x1 - region.x0;
             h += region.y1 - region.y0;
         }
-        this.winThreshold = w * h / 60;
+        this.winThreshold = sqrt(w * h) * 1.4;
     }
     update(){
         if (mState.d && mState.button == 0 && !this.won)
             this.points.push({x: mState.x - this.x, y: mState.y - this.y, end: mState.p});
         else if (mState.d && !this.won)
-            for (let i = 0; i < this.points.length; i ++)
-                if (abs(this.points[i].x - mState.x) + abs(this.points[i].y - mState.y) < WEIGHT * 2){
-                    if (this.points[i + 1])
-                        this.points[i + 1].end = 1;
-                    this.points.splice(i,1);
-                }
+            this.points = [];
+            //for (let i = 0; i < this.points.length; i ++)
+            //    if (abs(this.points[i].x - mState.x) + abs(this.points[i].y - mState.y) < WEIGHT * 2){
+            //        if (this.points[i + 1])
+            //            this.points[i + 1].end = 1;
+            //        this.points.splice(i,1);
+            //    }
         if (!(frameCount % 10))
             this.checkWin();
     }
@@ -84,33 +85,28 @@ class ScrubImage {
     draw(){
         if (this.image)
             image(this.image,this.x,this.y,this.w,this.h);
+        
+        push();
+        translate(this.x, this.y);
         for (let x of this.regions) {
-            push();
-            translate(this.x, this.y);
             x.draw();
-            pop();
         }
         stroke(255,0,0);
         strokeWeight(WEIGHT);
+        
         for (let i in this.points){
             let p0 = this.points[i];
             let p1 = this.points[i - 1];
             
 
             if (p0.end){
-                push();
-                translate(this.x, this.y);
                 point(p0.x, p0.y);
-                pop();
                 continue;
             }
-            if (p1) {
-                push();
-                translate(this.x, this.y);
+            if (p1)
                 line(p0.x,p0.y,p1.x,p1.y);
-                pop();
-            }
         }
+        pop();
     }
     setX(x){
         this.x = x;
