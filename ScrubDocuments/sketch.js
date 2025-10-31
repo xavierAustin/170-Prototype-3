@@ -11,29 +11,31 @@ let duration = 2500; //anim duration
 let easing = false;
 
 //remove the right click menu
-document.addEventListener('contextmenu', event => event.preventDefault());
+document.addEventListener("contextmenu", event => event.preventDefault());
 
 function preload(){
-    bg1 = loadImage('img/photoFrame.png');
-    bg2 = loadImage('img/photoFrame.png');
-    kb = loadImage('img/keyboard.png');
-    ei = loadImage('img/forest3.jpg');
-    forests.push(loadImage('img/forest1.jpg'));
-    forests.push(loadImage('img/forest2.jpg'));
-    forests.push(loadImage('img/forest3.jpg'));
-    forests.push(loadImage('img/forest4.jpeg'));
-    forests.push(loadImage('img/forest5.png'));
-    forests.push(loadImage('img/forest6.jpg'));
-    forests.push(loadImage('img/forest7.jpg'));
-    monsters.push(loadImage('img/monster1.png'));
-    monsters.push(loadImage('img/monster2.jpg'));
-    monsters.push(loadImage('img/monster3.png'));
-    monsters.push(loadImage('img/monster4.png'));
-    monsters.push(loadImage('img/monster5.png'));
-    monsters.push(loadImage('img/monster6.png'));
-    monsters.push(loadImage('img/monster7.png'));
-    monsters.push(loadImage('img/monster8.png'));
-    monsters.push(loadImage('img/monster9.png'));
+    bg1 = loadImage("img/photoFrame.png");
+    //bg2 = loadImage("img/photoFrame.png");
+    kb = loadImage("img/keyboard.png");
+    cf = loadImage("img/coffeeImage.png");
+    usb = loadImage("img/usbImage.png");
+    ei = loadImage("img/forest3.jpg");
+    forests.push(loadImage("img/forest1.jpg"));
+    forests.push(loadImage("img/forest2.jpg"));
+    forests.push(loadImage("img/forest3.jpg"));
+    forests.push(loadImage("img/forest4.jpeg"));
+    forests.push(loadImage("img/forest5.png"));
+    forests.push(loadImage("img/forest6.jpg"));
+    forests.push(loadImage("img/forest7.jpg"));
+    monsters.push(loadImage("img/monster1.png"));
+    monsters.push(loadImage("img/monster2.jpg"));
+    monsters.push(loadImage("img/monster3.png"));
+    monsters.push(loadImage("img/monster4.png"));
+    monsters.push(loadImage("img/monster5.png"));
+    monsters.push(loadImage("img/monster6.png"));
+    monsters.push(loadImage("img/monster7.png"));
+    monsters.push(loadImage("img/monster8.png"));
+    monsters.push(loadImage("img/monster9.png"));
 }
 
 function setup(){
@@ -135,7 +137,7 @@ function draw(){
     let x3 = easeAnim(width*0.359, width*0.359+width, t);
     
 
-    image(bg2, x0, 0, width, height);
+    image(bg1, x0, 0, width, height);
     image(bg1, x1, 0, width, height);
     images[0].setX(x2);
     images[1].setX(x3);
