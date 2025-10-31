@@ -23,19 +23,30 @@ class Seal {
     }
 
     draw() {
-        noStroke();
-        fill(180, 200, 220);
-        ellipse(this.x, this.y, this.r * 2, this.r * 1.4);
-        if (this.dirty > 0) {
-            fill(90, 60, 30, map(this.dirty, 0, 100, 0, 200));
-            ellipse(this.x, this.y, this.r * 2, this.r * 1.4);
-        }
-        noFill();
-        stroke(50, 150, 200);
-        strokeWeight(4);
-        let arcLen = map(this.dirty, 0, 100, 0, TWO_PI);
-        arc(this.x, this.y, this.r * 2.2, this.r * 1.6, -HALF_PI, -HALF_PI + arcLen);
+    push();
+    imageMode(CENTER);
+
+    if (this.dirty > 0) {
+        let alpha = map(this.dirty, 0, 100, 255, 180);
+        tint(255, alpha);
+    } else {
+        noTint();
     }
+
+    image(bubbleImg, this.x, this.y, this.r * 2.2, this.r * 1.6);
+
+    pop();
+
+    noFill();
+    stroke(50, 150, 200);
+    strokeWeight(4);
+
+    let arcLen = map(this.dirty, 0, 100, 0, TWO_PI);
+
+    arc(this.x, this.y, this.r * 2.4, this.r * 1.8, -HALF_PI, -HALF_PI + arcLen);
+    }
+
+
 
     update() {
 

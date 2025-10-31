@@ -1,5 +1,5 @@
 function preload() {
-    
+    bubbleImg = loadImage("img/seal.png");
 }
 
 function setup() {

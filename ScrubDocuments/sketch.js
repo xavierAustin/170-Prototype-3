@@ -82,15 +82,7 @@ function setup(){
         )]
         
     }));
-    /*
-    monster = new ScrubImage({
-        "image": monsters[mI],
-        "x": width*0.359 + random(width*0.3*0.75), 
-        "y": height*0.38 + height*0.365*0.25 + random(height*0.365*0.5),
-        "w": monsters[mI].width / width * 50,
-        "h": monsters[mI].height / height * 50
-    });
-    */
+
    
     tS = millis();
     t = millis();
