@@ -1,20 +1,31 @@
-function preload(){
-    //load images
+function preload() {
+    
 }
 
-function setup(){
-    //idk do stuff :)
+function setup() {
+    createCanvas(800, 600);
+    initGame(); 
 }
 
-function draw(){
-    //guess
+function draw() {
+    drawGame(); 
 }
 
-//track mouse state
-mState = {d: 0, x: 0, y: 0};
-function mouseDragged(ev){
-    mState = {p: 1, x: ev.x, y: ev.x};
+mState = { down: false, x: 0, y: 0, px: 0, py: 0 };
+
+function mousePressed(ev) {
+    mState.down = true;
+    mState.x = ev.x;
+    mState.y = ev.y;
 }
-function mouseReleased(){
-    mState.d = 0;
+
+function mouseDragged(ev) {
+    mState.px = mState.x;
+    mState.py = mState.y;
+    mState.x = ev.x;
+    mState.y = ev.y;
+}
+
+function mouseReleased() {
+    mState.down = false;
 }
