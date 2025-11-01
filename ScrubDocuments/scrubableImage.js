@@ -1,5 +1,14 @@
 const WEIGHT = 10;
 
+//https://oroboro.com/fast-approximate-distance/
+const FAD_SCALAR0 = 1007/1024;
+const FAD_SCALAR1 = 441/1024;
+function fastApproxDist(x0,y0,x1,y1){
+    let distX = abs(x0-x1);
+    let distY = abs(y0-y1);
+    return max(distX,distY)*FAD_SCALAR0+min(distX,distY)*FAD_SCALAR1;
+}
+
 class ScrubImage {
     constructor(selections = {}){
         //mutable
@@ -31,8 +40,26 @@ class ScrubImage {
         this.winThreshold = sqrt(w * h) * 1.4;
     }
     update(){
-        if (mState.d && mState.button == 0 && !this.won)
-            this.points.push({x: mState.x - this.x, y: mState.y - this.y, end: mState.p});
+        if (mState.d && mState.button == 0 && !this.won){
+            //for high mouse sense or low framerate
+            //adds interpolation points between previous point
+            console.log(this.points)
+            let lastPoint = this.points.at(-1);
+            let _x = mState.x - this.x;
+            let _y = mState.y - this.y;
+            if (!lastPoint || mState.p)
+                lastPoint = {x:_x,y:_y};
+            console.log(lastPoint.x,lastPoint.y,lastPoint.end)
+            let dist = fastApproxDist(_x,_y,lastPoint.x,lastPoint.y);
+            for(let i = 0; i <= dist;){
+                i += 10;
+                this.points.push({
+                    x: lerp(lastPoint.x,_x,min(i/dist,1)), 
+                    y: lerp(lastPoint.y,_y,min(i/dist,1)), 
+                    end: mState.p
+                });
+            }
+        }
         else if (mState.d && !this.won)
             this.points = [];
             //for (let i = 0; i < this.points.length; i ++)
@@ -58,23 +85,11 @@ class ScrubImage {
                 for (let j of this.points) {
                     if (i === j) break;
                     sameAsOtherPoint +=
-                        (10 > abs(j.x - i.x) + abs(j.y - i.y)) &&
+                        (10 > fastApproxDist(j.x,j.y,i.x,i.y)) &&
                         this.points.indexOf(i) - this.points.indexOf(j) > 10 &&
-                        (j.x > region.x0 &&
-                         j.y > yMin &&
-                         j.x < region.x1 &&
-                         j.y < yMax);
+                        (j.x > region.x0 && j.y > yMin && j.x < region.x1 && j.y < yMax);
                 }
-
-                if (
-                    i.x > region.x0 &&
-                    i.y > yMin &&
-                    i.x < region.x1 &&
-                    i.y < yMax &&
-                    !sameAsOtherPoint
-                ) {
-                    score++;
-                }
+                score += (i.x > region.x0 && i.y > yMin && i.x < region.x1 && i.y < yMax && !sameAsOtherPoint);
             }
         }
 
