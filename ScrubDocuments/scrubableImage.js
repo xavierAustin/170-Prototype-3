@@ -33,26 +33,28 @@ class ScrubImage {
         let w = 0;
         let h = 0;
         for (let region of this.regions){
-            //console.log(region.x0,region.x1,region.y0,region.y1);
             w += region.x1 - region.x0;
             h += region.y1 - region.y0;
         }
         this.winThreshold = sqrt(w * h) * 1.4;
+        this.numOfWinChecks = 0;
+        this.prevWinCheckScore = 0;
+        this.prevWinCheckIndex = 0;
     }
     update(){
-        if (mState.d && mState.button == 0 && !this.won){
+        if (this.won)
+            return;
+        if (mState.d && mState.button == 0){
             //for high mouse sense or low framerate
             //adds interpolation points between previous point
-            console.log(this.points)
             let lastPoint = this.points.at(-1);
             let _x = mState.x - this.x;
             let _y = mState.y - this.y;
             if (!lastPoint || mState.p)
                 lastPoint = {x:_x,y:_y};
-            console.log(lastPoint.x,lastPoint.y,lastPoint.end)
             let dist = fastApproxDist(_x,_y,lastPoint.x,lastPoint.y);
             for(let i = 0; i <= dist;){
-                i += 10;
+                i += 2;
                 this.points.push({
                     x: lerp(lastPoint.x,_x,min(i/dist,1)), 
                     y: lerp(lastPoint.y,_y,min(i/dist,1)), 
@@ -60,26 +62,26 @@ class ScrubImage {
                 });
             }
         }
-        else if (mState.d && !this.won)
+        else if (mState.d)
             this.points = [];
-            //for (let i = 0; i < this.points.length; i ++)
-            //    if (abs(this.points[i].x - mState.x) + abs(this.points[i].y - mState.y) < WEIGHT * 2){
-            //        if (this.points[i + 1])
-            //            this.points[i + 1].end = 1;
-            //        this.points.splice(i,1);
-            //    }
-        if (!(frameCount % 10))
-            this.checkWin();
+        this.checkWin();
     }
 
     checkWin() {
-        let score = 0;
+        if (this.prevWinCheckIndex >= this.points.length){
+            this.prevWinCheckScore = 0;
+            this.prevWinCheckIndex = 0;
+        }
+        let score = this.prevWinCheckScore;
 
+        let index
         for (let region of this.regions) {
-            let yMin = Math.min(region.y0, region.y2);
-            let yMax = Math.max(region.y0, region.y2);
+            let yMin = min(region.y0, region.y2);
+            let yMax = max(region.y0, region.y2);
 
-            for (let i of this.points) {
+            //obliterates ur big O notation w mind powers
+            for (index = this.prevWinCheckIndex; index < min(this.prevWinCheckIndex + 100,this.points.length); index++) {
+                let i = this.points[index];
                 let sameAsOtherPoint = false;
 
                 for (let j of this.points) {
@@ -91,10 +93,13 @@ class ScrubImage {
                 }
                 score += (i.x > region.x0 && i.y > yMin && i.x < region.x1 && i.y < yMax && !sameAsOtherPoint);
             }
-        }
 
-        //console.log("score:", score);
+        }
         if (score > this.winThreshold) this.won = true;
+        if (!this.won && index < this.points.length){
+            this.prevWinCheckIndex = index;
+            this.prevWinCheckScore = score;
+        }
     }
 
     draw(){
@@ -109,18 +114,9 @@ class ScrubImage {
         stroke(255,0,0);
         strokeWeight(WEIGHT);
         
-        for (let i in this.points){
-            let p0 = this.points[i];
-            let p1 = this.points[i - 1];
-            
 
-            if (p0.end){
-                point(p0.x, p0.y);
-                continue;
-            }
-            if (p1)
-                line(p0.x,p0.y,p1.x,p1.y);
-        }
+        for (let p of this.points)
+            point(p.x,p.y);
         pop();
     }
     setX(x){
