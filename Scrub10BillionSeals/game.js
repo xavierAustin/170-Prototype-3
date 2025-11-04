@@ -49,21 +49,18 @@ class Seal {
 
 
     update() {
-
         if (millis() > this.life) {
             missed++;
             return true; 
         }
 
-
-        if (mState.down) {
-            let moved = dist(mState.x, mState.y, mState.px, mState.py);
-            if (moved > 0.5) { 
-                let d = dist(mState.x, mState.y, this.x, this.y);
-                if (d < this.r) {
-                    this.dirty -= moved * 0.7;
-                    if (this.dirty < 0) this.dirty = 0;
-                }
+        // Always detect cursor movement (no need to hold mouse down)
+        let moved = dist(mState.x, mState.y, mState.px, mState.py);
+        if (moved > 0.5) { 
+            let d = dist(mState.x, mState.y, this.x, this.y);
+            if (d < this.r) {
+                this.dirty -= moved * 0.7;
+                if (this.dirty < 0) this.dirty = 0;
             }
         }
 
