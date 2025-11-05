@@ -18,61 +18,69 @@ class Seal {
         this.x = x;
         this.y = y;
         this.r = r;
-        this.dirty = 100; // 100 = filthy, 0 = clean
-        this.life = millis() + 12000; 
+        this.speed = random(1.5, 3);
+
+        this.spots = [];
+        let numSpots = int(random(10, 20));
+        for (let i = 0; i < numSpots; i++) {
+            this.spots.push({
+                ox: random(-this.r * 0.8, this.r * 0.8),
+                oy: random(-this.r * 0.6, this.r * 0.6),
+                size: random(6, 14),
+                visible: true
+            });
+        }
     }
 
     draw() {
-    push();
-    imageMode(CENTER);
-
-    if (this.dirty > 0) {
-        let alpha = map(this.dirty, 0, 100, 255, 180);
-        tint(255, alpha);
-    } else {
+        push();
+        imageMode(CENTER);
         noTint();
+        image(bubbleImg, this.x, this.y, this.r * 2.2, this.r * 1.6);
+        pop();
+
+        noStroke();
+        fill(110, 70, 30);
+        for (let s of this.spots) {
+            if (s.visible) {
+                ellipse(this.x + s.ox, this.y + s.oy, s.size);
+            }
+        }
     }
-
-    image(bubbleImg, this.x, this.y, this.r * 2.2, this.r * 1.6);
-
-    pop();
-
-    noFill();
-    stroke(50, 150, 200);
-    strokeWeight(4);
-
-    let arcLen = map(this.dirty, 0, 100, 0, TWO_PI);
-
-    arc(this.x, this.y, this.r * 2.4, this.r * 1.8, -HALF_PI, -HALF_PI + arcLen);
-    }
-
-
 
     update() {
-        if (millis() > this.life) {
-            missed++;
-            return true; 
-        }
+        this.x -= this.speed;
 
-        // Always detect cursor movement (no need to hold mouse down)
+        // Scrubbing detection
         let moved = dist(mState.x, mState.y, mState.px, mState.py);
-        if (moved > 0.5) { 
+        if (moved > 0.5) {
             let d = dist(mState.x, mState.y, this.x, this.y);
             if (d < this.r) {
-                this.dirty -= moved * 0.7;
-                if (this.dirty < 0) this.dirty = 0;
+                // Randomly remove spots
+                for (let i = 0; i < this.spots.length; i++) {
+                    if (this.spots[i].visible && random() < 0.1) {
+                        this.spots[i].visible = false;
+                    }
+                }
             }
         }
 
-        // if clean
-        if (this.dirty <= 0) {
+        let remaining = this.spots.filter(s => s.visible).length;
+
+        if (remaining === 0) {
             score++;
+            return true; 
+        }
+
+        if (this.x < -this.r) {
+            missed++;
             return true;
         }
 
         return false;
     }
 }
+
 
 function drawGame() {
     background(220, 240, 255);
