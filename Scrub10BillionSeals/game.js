@@ -15,7 +15,7 @@ function initGame() {
 
 class Seal {
     constructor(x, y, r = 50) {
-        this.x = x;
+        this.x = x + 600;
         this.y = y;
         this.r = r;
         this.speed = random(1.5, 3);
