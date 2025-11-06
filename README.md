@@ -25,5 +25,10 @@ set time limit to censor a number of images and documents; if player goes above 
 
 its in the name 😊   
 **patch notes:**
+  - 0.1 adding circles with some logic of mouse detection
+  - 0.2 worked on the the scrubing mechanic what relied on the mouse movement within the object
+  - 0.3-0.5 worked on makeing a sudo gameplay loop score system and added the cleaning logic to the circles that spawned
+  - 0.6-0.8 made it more on theme adding seals and a visual indicator of how much the object was scrubbed.
+  - 0.9-1 refinements were made like replaceing the circle bar with spots to make the seals look like they are getting cleaned and also just removing the mouse click needed because it was causing issues
   - **Playtesting phase 2 (see playtesting phase 1)**
   - 1.1 added more feedback (red flashing on miss) and centered canvas   
