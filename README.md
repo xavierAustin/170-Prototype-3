@@ -3,7 +3,7 @@
 multiplayer competative race to clean something; one player uses wasd other uses arrow keys
 patch notes:
     Playtesting phase 2
-    1.1 added controls to ui on click and centered canvas
+    1.1 added controls to ui on click, reset function, and centered canvas
 ### ScrubDocuments
 set time limit to censor a number of images and documents; if player goes above quota they get a pay raise
 patch notes:
@@ -20,4 +20,4 @@ patch notes:
 its in the name 😊
 patch notes:
     Playtesting phase 2
-    1.1 added more feedback (+1 text and red flashing on miss) and centered canvas
+    1.1 added more feedback (red flashing on miss) and centered canvas
