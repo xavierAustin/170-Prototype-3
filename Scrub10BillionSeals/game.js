@@ -4,6 +4,7 @@ let score = 0;
 let missed = 0;
 let nextSpawn = 0;
 let gameOver = false;
+let redFlash = 0;
 
 function initGame() {
     seals = [];
@@ -74,6 +75,7 @@ class Seal {
 
         if (this.x < -this.r) {
             missed++;
+            redFlash = 1.2;
             return true;
         }
 
@@ -83,7 +85,8 @@ class Seal {
 
 
 function drawGame() {
-    background(220, 240, 255);
+    background(lerpColor(color(220, 240, 255),color(255, 100, 100),redFlash));
+    redFlash -= 0.1
 
     if (gameOver) {
         textAlign(CENTER, CENTER);
