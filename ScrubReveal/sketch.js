@@ -54,14 +54,17 @@ function draw() {
   else
     allowRestart = gameOver || (players[0].score < 3 && players[1].score < 3);
 
+  if (gameOver)
+    return;
+
   background(255);
   push();
   textAlign(CENTER, CENTER);
   textSize(30);
-  text("Controls\n\n\nPlayer 1: Use WASD\nPlayer 2: Use Arrow Keys\nBoth Players: Restart with 0\n\nClick the window to hide this screen,\nclick again to show",width/2,height/2);
+  text("Controls\n\n\nPlayer 1: Use WASD\nPlayer 2: Use Arrow Keys\nBoth Players: Restart with 0\n\nClick the window to hide this screen,\nclick again to show.",width/2,height/2);
   pop();
 
-  if (gameOver || showControls)
+  if (showControls)
     return;
 
   background(220, 240, 255); // light glass-like background
@@ -121,7 +124,7 @@ function showWinner() {
   textAlign(CENTER, CENTER);
   textSize(28);
   fill(255);
-  text(`All clean! ${msg}\nP1: ${p1.score}  |  P2: ${p2.score}`, width / 2, height / 2);
+  text(`All clean! ${msg}\nP1: ${p1.score}  |  P2: ${p2.score}\nPress 0 to restart.`, width / 2, height / 2);
 }
 
 // Input handling 
