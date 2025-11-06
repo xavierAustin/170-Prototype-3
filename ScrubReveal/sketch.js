@@ -32,6 +32,7 @@ function restart(){
     dirts.push({
       x: random(margin, width - margin),
       y: random(margin, height - margin),
+      hp: 100,
       r: random(6, 12),      // radius
       cleanedBy: null        // "P1" or "P2"
     });
@@ -54,14 +55,17 @@ function draw() {
   else
     allowRestart = gameOver || (players[0].score < 3 && players[1].score < 3);
 
+  if (gameOver)
+    return;
+
   background(255);
   push();
   textAlign(CENTER, CENTER);
   textSize(30);
-  text("Controls\n\n\nPlayer 1: Use WASD\nPlayer 2: Use Arrow Keys\nBoth Players: Restart with 0\n\nClick the window to hide this screen,\nclick again to show",width/2,height/2);
+  text("Controls\n\n\nPlayer 1: Use WASD\nPlayer 2: Use Arrow Keys\nBoth Players: Restart with 0\n\nClick the window to hide this screen,\nclick again to show.",width/2,height/2);
   pop();
 
-  if (gameOver || showControls)
+  if (showControls)
     return;
 
   background(220, 240, 255); // light glass-like background
@@ -75,7 +79,7 @@ function draw() {
   // Draw remaining dirts
   for (const d of dirts) {
     if (!d.cleanedBy) {
-      fill(120, 120, 120, 200);
+      fill(120, 120, 120, 2*d.hp);
       circle(d.x, d.y, d.r * 2);
     }
   }
@@ -121,7 +125,7 @@ function showWinner() {
   textAlign(CENTER, CENTER);
   textSize(28);
   fill(255);
-  text(`All clean! ${msg}\nP1: ${p1.score}  |  P2: ${p2.score}`, width / 2, height / 2);
+  text(`All clean! ${msg}\nP1: ${p1.score}  |  P2: ${p2.score}\nPress 0 to restart.`, width / 2, height / 2);
 }
 
 // Input handling 
@@ -173,7 +177,13 @@ class Player {
     for (const d of dirts) {
       if (!d.cleanedBy) {
         const distToDirt = dist(this.x, this.y, d.x, d.y);
-        if (distToDirt <= CLEAN_RADIUS + d.r) {
+        if (distToDirt > CLEAN_RADIUS + d.r)
+          continue;
+        let temp = floor(d.hp/10)%2;
+        let ctrl = this.controls;
+        if (((keys[ctrl.up] || keys[ctrl.left]) && temp) ^ ((keys[ctrl.down] || keys[ctrl.right]) && !temp))
+          d.hp -= 2;
+        if (!d.hp) {
           d.cleanedBy = this.name;
           this.score += 1;
         }
