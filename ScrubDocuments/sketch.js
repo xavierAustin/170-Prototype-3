@@ -174,11 +174,11 @@ function easeAnim(start, end, t) {
 //track mouse state
 mState = {p: 0, d: 0, x: 0, y: 0, button: 0};
 function mousePressed(ev){
-    //console.log(ev);
-    mState = {p: 1, d: 1, x: ev.x, y: ev.y, button: ev.button};
+    console.log(ev);
+    mState = {p: 1, d: 1, x: ev.offsetX, y: ev.offsetY, button: ev.button};
 }
 function mouseDragged(ev){
-    mState = {p: mState.p, d: 1, x: ev.x, y: ev.y, button: mState.button};
+    mState = {p: mState.p, d: 1, x: ev.offsetX, y: ev.offsetY, button: mState.button};
 }
 function mouseReleased(){
     mState.d = 0;
