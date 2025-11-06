@@ -32,6 +32,7 @@ function restart(){
     dirts.push({
       x: random(margin, width - margin),
       y: random(margin, height - margin),
+      hp: 100,
       r: random(6, 12),      // radius
       cleanedBy: null        // "P1" or "P2"
     });
@@ -78,7 +79,7 @@ function draw() {
   // Draw remaining dirts
   for (const d of dirts) {
     if (!d.cleanedBy) {
-      fill(120, 120, 120, 200);
+      fill(120, 120, 120, 2*d.hp);
       circle(d.x, d.y, d.r * 2);
     }
   }
@@ -176,7 +177,13 @@ class Player {
     for (const d of dirts) {
       if (!d.cleanedBy) {
         const distToDirt = dist(this.x, this.y, d.x, d.y);
-        if (distToDirt <= CLEAN_RADIUS + d.r) {
+        if (distToDirt > CLEAN_RADIUS + d.r)
+          continue;
+        let temp = floor(d.hp/10)%2;
+        let ctrl = this.controls;
+        if (((keys[ctrl.up] || keys[ctrl.left]) && temp) ^ ((keys[ctrl.down] || keys[ctrl.right]) && !temp))
+          d.hp -= 2;
+        if (!d.hp) {
           d.cleanedBy = this.name;
           this.score += 1;
         }
