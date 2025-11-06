@@ -3,12 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My p5.js Game</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.0/p5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.0/addons/p5.sound.min.js"></script>
-    <script src="sketch.js"></script>
-    <script src="game.js"></script>
+    <title>Seal Scrubber</title>
+    <style>
+        html, body { margin: 0; overflow: hidden; height: 100%; background-color: lightskyblue }
+    </style>
 </head>
 <body>
+    <container id="canvas-container"></container>
+<style>
+    #canvas-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    canvas {
+        border: 5px solid black;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.0/p5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.0/addons/p5.sound.min.js"></script>
+<script src="sketch.js"></script>
+<script src="game.js"></script>
 </body>
 </html>

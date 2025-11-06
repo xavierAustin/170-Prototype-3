@@ -46,7 +46,9 @@ function preload(){
 
 function setup(){
     randomSeed();
-    createCanvas(1080,810);
+    let canvas = createCanvas(1080,810);
+    canvas.parent('canvas-container');
+    
     let fI0 = floor(random(forests.length));
     let mI0 = floor(random(monsters.length));
     let fI1 = floor(random(forests.length));

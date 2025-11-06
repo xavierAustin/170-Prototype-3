@@ -4,9 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Window Cleaning Duel</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.0/p5.min.js"></script>
-    <script src="sketch.js"></script>
+    <style>
+        html, body { margin: 0; overflow: hidden; height: 100%; background-color: lightblue }
+    </style>
 </head>
 <body>
+    <container id="canvas-container"></container>
+<style>
+    #canvas-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    canvas {
+        border: 5px solid black;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.0/p5.min.js"></script>
+<script src="sketch.js"></script>
 </body>
 </html>

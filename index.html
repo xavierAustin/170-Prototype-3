@@ -3,10 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body { margin: 0px; padding: 0px; height: 100%; background-color: rgb(62, 97, 83); }
+    </style>
 </head>
 <body>
-    <a href="Scrub10BillionSeals/index.html">Scrub10BillionSeals</a>
-    <a href="ScrubDocuments/index.html">ScrubDocuments</a>
-    <a href="ScrubReveal/index.html">ScrubReveal</a>
+    <container id="banner">
+        <strong id="title">Scrub Games</strong>
+    </container>
+    <container id="cBody">
+        <container class="columns">
+            <container class="links">
+                <a href="Scrub10BillionSeals/index.html">Scrub10BillionSeals</a>                
+            </container>
+            <container class="links">
+                <a href="ScrubDocuments/index.html">ScrubDocuments</a>                
+            </container>
+            <container class="links">
+                <a href="ScrubReveal/index.html">ScrubReveal</a>
+            </container>
+        </container>
+        <container id="deets" class="columns">
+            <strong>Details</strong>
+            <container>
+                <em>Something</em>
+            </container>
+        </container>
+    </container>
+
+
+<style>
+    #banner {
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        height: 10%;
+    }
+    #title {
+        font-size: 64px;
+    }
+    .columns {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: space-evenly;
+        padding: 5px;
+        background-color: #00000070;
+        border: rgb(51, 51, 51);
+        height: 90%;
+        width: 40%
+    }
+    #deets {
+        align-items: center;
+    }
+    .links {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    #cBody {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 90%;
+        width: 100%;
+    }
+    a, strong {
+        font-size: 24px;
+    }
+</style>
 </body>
 </html>
