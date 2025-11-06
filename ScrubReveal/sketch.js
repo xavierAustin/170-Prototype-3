@@ -5,22 +5,26 @@ const CLEAN_RADIUS = 20;   // how close you must be to clean
 const SPEED = 3;           // player movement speed
 let keys = {};             // pressed keys map
 let gameOver = false;
+let showControls = true;
+let allowRestart = true;
 
-function setup() {
-  createCanvas(720, 480);
+function restart(){
+  players = [];
+  dirts = [];
+  gameOver = false;
 
-  players.push(new Player(
+  players = [(new Player(
     width * 0.25, height * 0.5,
     color(70, 150, 255),
     { up: 'w', down: 's', left: 'a', right: 'd' },
     "P1"
-  ));
-  players.push(new Player(
+  )),
+  (new Player(
     width * 0.75, height * 0.5,
     color(255, 80, 80),
     { up: 'arrowup', down: 'arrowdown', left: 'arrowleft', right: 'arrowright' },
     "P2"
-  ));
+  ))];
 
   // Scatter dirt blobs around the window
   const margin = 24;
@@ -32,11 +36,34 @@ function setup() {
       cleanedBy: null        // "P1" or "P2"
     });
   }
+}
+
+function setup() {
+  createCanvas(720, 480);
+
+  restart();
 
   textFont('sans-serif');
 }
 
 function draw() {
+  if (allowRestart && keys["0"])
+    restart();
+  if (keys["0"])
+    allowRestart = false;
+  else
+    allowRestart = gameOver || (players[0].score < 3 && players[1].score < 3);
+
+  background(255);
+  push();
+  textAlign(CENTER, CENTER);
+  textSize(30);
+  text("Controls\n\n\nPlayer 1: Use WASD\nPlayer 2: Use Arrow Keys\nBoth Players: Restart with 0\n\nClick the window to hide this screen,\nclick again to show",width/2,height/2);
+  pop();
+
+  if (gameOver || showControls)
+    return;
+
   background(220, 240, 255); // light glass-like background
 
   // Window grid
@@ -67,7 +94,7 @@ function draw() {
   // all dirts cleaned
   if (!gameOver && dirts.every(d => d.cleanedBy)) {
     gameOver = true;
-    noLoop();
+    //noLoop();
     showWinner();
   }
 }
@@ -100,16 +127,22 @@ function showWinner() {
 // Input handling 
 function keyPressed() {
   let k = key || '';
-  if (k.length === 1) k = k.toLowerCase();
+  if (k.length === 1) 
+    k = k.toLowerCase();
   keys[k.toLowerCase()] = true;
   return false;
 }
 
 function keyReleased() {
   let k = key || '';
-  if (k.length === 1) k = k.toLowerCase();
+  if (k.length === 1) 
+    k = k.toLowerCase();
   keys[k.toLowerCase()] = false;
   return false;
+}
+
+function mouseClicked(){
+  showControls = !showControls;
 }
 
 class Player {
