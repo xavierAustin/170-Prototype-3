@@ -40,8 +40,8 @@ function restart(){
 }
 
 function setup() {
-  createCanvas(720, 480);
-
+  let canvas = createCanvas(720, 480);
+  canvas.parent('canvas-container');
   restart();
 
   textFont('sans-serif');
